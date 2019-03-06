@@ -1,0 +1,34 @@
+.bg { 
+    
+    /*background: linear-gradient(Black,#696969);*/
+    background: url("./media/moon_background.jpg");
+    
+    /* Full height */
+    height: 100%;
+  
+    /* Center and scale the image nicely */
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /*TODO: fix the background image display*/
+  }
+
+  h1 {
+      color: white;
+  }
+  
+  h2, h3, {
+      color: black;
+  }
+
+  p {
+      padding-bottom: 0;
+  }
+
+  .row {
+      align-content: center;
+  }
+  #footer {
+    color: white;
+
+  }
