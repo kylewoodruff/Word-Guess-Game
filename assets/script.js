@@ -1,3 +1,4 @@
+// Notes for the application
 // 2. Choose a theme for your game! In the demo, we picked an 80s theme: 80s questions, 80s sound and an 80s aesthetic. You can choose any subject for your theme, though, so be creative!
 // 3. Use key events to listen for the letters that your players will type.
 // 4. Display the following on the page:
