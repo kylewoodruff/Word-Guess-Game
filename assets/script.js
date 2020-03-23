@@ -59,9 +59,12 @@ window.onload = function () {
                         delete wordArray[idToSelect];
                         console.log("Selected ID :", selectedIds);
                     }
-                    //TODO: log the spcaebar correctly
                 }
                 userGuess.push(playerKey);
+                //TODO: log the spcaebar correctly
+                    //if (idToSelect = " ") {
+                        //console.log("spacebar was pushed")
+                    //}
             } else if (userGuess.indexOf(playerKey) >= 0) {
                 console.log("you already picked " + playerKey + " letter!");
 
