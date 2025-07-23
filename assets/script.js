@@ -18,6 +18,17 @@ var userGuess = [];
 var correctGuesses = 0;
 var availableWords = ["Apollo", "Moon", "Space", "Mars", "Jupiter", "Outerspace", "Kuiper belt", "Asteroid belt"]
 
+// return all indices in `array` that match `letter` ignoring case
+function findLetterIndices(array, letter) {
+    var indices = [];
+    for (var i = 0; i < array.length; i++) {
+        if (array[i].toLowerCase() === letter.toLowerCase()) {
+            indices.push(i);
+        }
+    }
+    return indices;
+}
+
 //linking html ids to js variables
 var playerWinsText = document.getElementById("player-wins");
 var guessesLeftText = document.getElementById("remaining-guesses");
@@ -49,22 +60,11 @@ window.onload = function () {
             console.log("You pressed: " + playerKey);
 
             // determine if there are multiple occurrences of the same character
-            if (wordArray.includes(playerKey)) {
-                for (let i = 0; i < wordArray.length; i++) {
-                    var idToSelect = wordArray.indexOf(playerKey);
-                    console.log("Id of key: ", idToSelect);
-
-                    if (idToSelect >= 0) {
-                        selectedIds.push(idToSelect);
-                        delete wordArray[idToSelect];
-                        console.log("Selected ID :", selectedIds);
-                    }
-                }
+            var foundIds = findLetterIndices(wordArray, playerKey);
+            if (foundIds.length > 0) {
+                selectedIds = foundIds;
                 userGuess.push(playerKey);
                 //TODO: log the spacebar correctly
-                    //if (idToSelect = " ") {
-                        //console.log("spacebar was pushed")
-                    //}
             } else if (userGuess.indexOf(playerKey) >= 0) {
                 console.log("you already picked " + playerKey + " letter!");
 
