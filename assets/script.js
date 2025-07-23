@@ -11,7 +11,7 @@
 // 9. After the user wins/loses the game should automatically choose another word and make the user play it.
 
 
-//setting global varibales
+// setting global variables
 var wins = 0;
 var remainingGuesses = 9;
 var userGuess = [];
@@ -48,7 +48,7 @@ window.onload = function () {
             var playerKey = event.key;
             console.log("You pressed: " + playerKey);
 
-            // determine if there are multiple occurances of the same charecter
+            // determine if there are multiple occurrences of the same character
             if (wordArray.includes(playerKey)) {
                 for (let i = 0; i < wordArray.length; i++) {
                     var idToSelect = wordArray.indexOf(playerKey);
@@ -61,7 +61,7 @@ window.onload = function () {
                     }
                 }
                 userGuess.push(playerKey);
-                //TODO: log the spcaebar correctly
+                //TODO: log the spacebar correctly
                     //if (idToSelect = " ") {
                         //console.log("spacebar was pushed")
                     //}
