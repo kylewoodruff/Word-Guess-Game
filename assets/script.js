@@ -11,12 +11,26 @@
 // 9. After the user wins/loses the game should automatically choose another word and make the user play it.
 
 
-//setting global varibales
+// setting global variables
 var wins = 0;
 var remainingGuesses = 9;
 var userGuess = [];
 var correctGuesses = 0;
-var availableWords = ["Apollo", "Moon", "Space", "Mars", "Jupiter", "Outerspace", "Kuiper belt", "Asteroid belt"]
+var availableWords = ["Apollo", "Moon", "Space", "Mars", "Jupiter", "Outerspace", "Kuiper belt", "Asteroid belt"];
+
+var selectedWord = "";
+var wordArray = [];
+
+// return all indices in `array` that match `letter` ignoring case
+function findLetterIndices(array, letter) {
+    var indices = [];
+    for (var i = 0; i < array.length; i++) {
+        if (array[i].toLowerCase() === letter.toLowerCase()) {
+            indices.push(i);
+        }
+    }
+    return indices;
+}
 
 // word data used while the game is active
 var selectedWord;
@@ -30,6 +44,12 @@ var wordGuessText = document.getElementById("word-to-guess");
 
 guessesLeftText.textContent = remainingGuesses;
 
+function updateGuessedLettersDisplay() {
+    lettersGuessedText.textContent = userGuess
+        .map(function (ch) { return ch === " " ? "space" : ch; })
+        .join(" ");
+}
+
 function startGame() {
     var wordToConvert = availableWords[Math.floor(Math.random() * availableWords.length)];
     selectedWord = wordToConvert.toLowerCase();
@@ -42,12 +62,20 @@ function startGame() {
     lettersGuessedText.textContent = "";
     document.getElementById("resetButton").innerHTML = "";
 
-    playerWinsText.textContent = wins;
+    remainingGuesses = 9;
+    correctGuesses = 0;
+    userGuess = [];
+
+    guessesLeftText.textContent = remainingGuesses;
+    updateGuessedLettersDisplay();
+
+    document.getElementById("resetButton").innerHTML = "";
 
     for (let i = 0; i < wordArray.length; i++) {
-        blankWord = blankWord + "<span class='nameUnderscore' id='" + i + "'>_</span> ";
+        blankWord += "<span class='nameUnderscore' id='" + i + "'>_</span> ";
     }
     wordGuessText.innerHTML = "<p>" + blankWord + "</p>";
+}
 
     console.log(wordArray);
 
@@ -88,9 +116,24 @@ function startGame() {
                     document.getElementById("resetButton").innerHTML = "<button id='play-again' type='button' class='btn btn-primary btn-lg'>Play Again!</button>";
                     document.getElementById("play-again").addEventListener('click', startGame);
                 }
+            }
+            if (!userGuess.includes(playerKey)) {
                 userGuess.push(playerKey);
             }
-
+        } else if (userGuess.indexOf(playerKey) >= 0) {
+            console.log("you already picked " + playerKey + " letter!");
+        } else {
+            if (remainingGuesses > 0) {
+                remainingGuesses--;
+                guessesLeftText.textContent = remainingGuesses;
+                console.log("you remaining guesses: " + remainingGuesses);
+            }
+            if (remainingGuesses === 0) {
+                alert("You Lose!");
+            }
+            userGuess.push(playerKey);
+        }
+      
             lettersGuessedText.textContent = userGuess.join(' ');
 
             console.log("This is user's guess ", userGuess);
@@ -113,7 +156,7 @@ function startGame() {
                 }
             }
         }
-    };
+    }
 };
 
 window.onload = startGame;
