@@ -21,21 +21,6 @@ var availableWords = ["Apollo", "Moon", "Space", "Mars", "Jupiter", "Outerspace"
 var selectedWord = "";
 var wordArray = [];
 
-// return all indices in `array` that match `letter` ignoring case
-function findLetterIndices(array, letter) {
-    var indices = [];
-    for (var i = 0; i < array.length; i++) {
-        if (array[i].toLowerCase() === letter.toLowerCase()) {
-            indices.push(i);
-        }
-    }
-    return indices;
-}
-
-// word data used while the game is active
-var selectedWord;
-var wordArray;
-
 //linking html ids to js variables
 var playerWinsText = document.getElementById("player-wins");
 var guessesLeftText = document.getElementById("remaining-guesses");
@@ -155,8 +140,6 @@ function startGame() {
 
                 }
             }
-        }
-    }
-};
+    };
 
 window.onload = startGame;
