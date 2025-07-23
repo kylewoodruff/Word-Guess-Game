@@ -18,6 +18,10 @@ var userGuess = [];
 var correctGuesses = 0;
 var availableWords = ["Apollo", "Moon", "Space", "Mars", "Jupiter", "Outerspace", "Kuiper belt", "Asteroid belt"]
 
+// word data used while the game is active
+var selectedWord;
+var wordArray;
+
 //linking html ids to js variables
 var playerWinsText = document.getElementById("player-wins");
 var guessesLeftText = document.getElementById("remaining-guesses");
@@ -26,11 +30,17 @@ var wordGuessText = document.getElementById("word-to-guess");
 
 guessesLeftText.textContent = remainingGuesses;
 
-window.onload = function () {
+function startGame() {
     var wordToConvert = availableWords[Math.floor(Math.random() * availableWords.length)];
-    var selectedWord = wordToConvert.toLowerCase();
-    var wordArray = selectedWord.split("");
+    selectedWord = wordToConvert.toLowerCase();
+    wordArray = selectedWord.split("");
     var blankWord = "";
+    remainingGuesses = 9;
+    correctGuesses = 0;
+    userGuess = [];
+    guessesLeftText.textContent = remainingGuesses;
+    lettersGuessedText.textContent = "";
+    document.getElementById("resetButton").innerHTML = "";
 
     playerWinsText.textContent = wins;
 
@@ -42,10 +52,9 @@ window.onload = function () {
     console.log(wordArray);
 
     document.onkeyup = function (event) {
-        var keyPress = String.fromCharCode(event.keyCode);
         var selectedIds = [];
-        if (/[a-zA-Z0-9\s]/.test(keyPress)) {
-            var playerKey = event.key;
+        var playerKey = event.key.toLowerCase();
+        if (/^[a-z0-9 ]$/.test(playerKey)) {
             console.log("You pressed: " + playerKey);
 
             // determine if there are multiple occurances of the same charecter
@@ -75,12 +84,14 @@ window.onload = function () {
                     console.log("you remaining guesses: " + remainingGuesses);
                 }
                 if (remainingGuesses === 0) {
-                    alert("You Loose!");
+                    alert("You Lose!");
+                    document.getElementById("resetButton").innerHTML = "<button id='play-again' type='button' class='btn btn-primary btn-lg'>Play Again!</button>";
+                    document.getElementById("play-again").addEventListener('click', startGame);
                 }
                 userGuess.push(playerKey);
             }
 
-            lettersGuessedText.textContent = userGuess;
+            lettersGuessedText.textContent = userGuess.join(' ');
 
             console.log("This is user's guess ", userGuess);
 
@@ -90,7 +101,8 @@ window.onload = function () {
                 if (correctGuesses === selectedWord.length) {
                     wins++;
                     playerWinsText.textContent = wins;
-                    document.getElementById("resetButton").innerHTML = "<button type='button' class='btn btn-primary btn-lg'>Play Again!</button>";
+                    document.getElementById("resetButton").innerHTML = "<button id='play-again' type='button' class='btn btn-primary btn-lg'>Play Again!</button>";
+                    document.getElementById("play-again").addEventListener('click', startGame);
 
                     //TODO: change word on click of "Play Again" button
                     //TODO: clear letters already guessed
@@ -103,3 +115,5 @@ window.onload = function () {
         }
     };
 };
+
+window.onload = startGame;
