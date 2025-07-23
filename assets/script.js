@@ -75,7 +75,7 @@ window.onload = function () {
                     console.log("you remaining guesses: " + remainingGuesses);
                 }
                 if (remainingGuesses === 0) {
-                    alert("You Loose!");
+                    alert("You Lose!");
                 }
                 userGuess.push(playerKey);
             }
