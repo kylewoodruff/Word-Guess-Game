@@ -9,3 +9,11 @@ Install dependencies and run the test suite with:
 npm install
 npm test
 ```
+
+## Linting
+
+Run ESLint on the source and test files with:
+
+```bash
+npm run lint
+```

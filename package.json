@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "Word guessing game",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint assets/ tests/"
   },
   "devDependencies": {
+    "eslint": "^8.56.0",
     "jest": "^29.6.1"
   }
 }
