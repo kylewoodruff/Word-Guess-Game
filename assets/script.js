@@ -18,6 +18,8 @@ var userGuess = [];
 var correctGuesses = 0;
 var availableWords = ["Apollo", "Moon", "Space", "Mars", "Jupiter", "Outerspace", "Kuiper belt", "Asteroid belt"]
 
+// findLetterIndices is provided by game-utils.js
+
 //linking html ids to js variables
 var playerWinsText = document.getElementById("player-wins");
 var guessesLeftText = document.getElementById("remaining-guesses");
@@ -48,17 +50,11 @@ window.onload = function () {
             var playerKey = event.key;
             console.log("You pressed: " + playerKey);
 
-            // determine if there are multiple occurances of the same charecter
+            // determine if there are multiple occurances of the same character
             if (wordArray.includes(playerKey)) {
-                for (let i = 0; i < wordArray.length; i++) {
-                    var idToSelect = wordArray.indexOf(playerKey);
-                    console.log("Id of key: ", idToSelect);
-
-                    if (idToSelect >= 0) {
-                        selectedIds.push(idToSelect);
-                        delete wordArray[idToSelect];
-                        console.log("Selected ID :", selectedIds);
-                    }
+                selectedIds = findLetterIndices(wordArray, playerKey);
+                for (let i = 0; i < selectedIds.length; i++) {
+                    delete wordArray[selectedIds[i]];
                 }
                 userGuess.push(playerKey);
                 //TODO: log the spcaebar correctly
