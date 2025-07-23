@@ -50,7 +50,6 @@ window.onload = function () {
             var playerKey = event.key;
             console.log("You pressed: " + playerKey);
             // determine if there are multiple occurrences of the same character
-
             if (wordArray.includes(playerKey)) {
                 selectedIds = findLetterIndices(wordArray, playerKey);
                 for (let i = 0; i < selectedIds.length; i++) {
