@@ -58,7 +58,6 @@ window.onload = function () {
         if (/[a-zA-Z0-9\s]/.test(keyPress)) {
             var playerKey = event.key;
             console.log("You pressed: " + playerKey);
-
             // determine if there are multiple occurrences of the same character
             var foundIds = findLetterIndices(wordArray, playerKey);
             if (foundIds.length > 0) {

@@ -1,0 +1,11 @@
+{
+  "name": "word-guess-game",
+  "version": "1.0.0",
+  "description": "Word guessing game",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.6.1"
+  }
+}
