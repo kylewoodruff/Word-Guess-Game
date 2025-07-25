@@ -70,17 +70,11 @@ function startGame() {
         if (/^[a-z0-9 ]$/.test(playerKey)) {
             console.log("You pressed: " + playerKey);
 
-            // determine if there are multiple occurances of the same charecter
+            // determine if there are multiple occurances of the same character
             if (wordArray.includes(playerKey)) {
-                for (let i = 0; i < wordArray.length; i++) {
-                    var idToSelect = wordArray.indexOf(playerKey);
-                    console.log("Id of key: ", idToSelect);
-
-                    if (idToSelect >= 0) {
-                        selectedIds.push(idToSelect);
-                        delete wordArray[idToSelect];
-                        console.log("Selected ID :", selectedIds);
-                    }
+                selectedIds = window.findLetterIndices(wordArray, playerKey);
+                for (let i = 0; i < selectedIds.length; i++) {
+                    delete wordArray[selectedIds[i]];
                 }
                 userGuess.push(playerKey);
                 //TODO: log the spcaebar correctly
