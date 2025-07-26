@@ -7,6 +7,9 @@ Open `index.html` in your web browser to start a local game. No server is
 required; simply double‑click the file or open it from your browser's *File →
 Open* menu.
 
+Only alphabetic letters and the space bar are counted as guesses. Modifier keys
+(such as Shift or Control), number keys, and navigation keys are ignored.
+
 ## Running Tests
 
 Before running the test suite you need to install dependencies:
