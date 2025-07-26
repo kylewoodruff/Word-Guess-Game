@@ -66,8 +66,35 @@ function startGame() {
 
     document.onkeyup = function (event) {
         var selectedIds = [];
-        var playerKey = event.key.toLowerCase();
-        if (/^[a-z0-9 ]$/.test(playerKey)) {
+        var rawKey = event.key;
+        var lowerKey = rawKey.toLowerCase();
+
+        var ignored = [
+            "shift",
+            "control",
+            "ctrl",
+            "alt",
+            "option",
+            "meta",
+            "command",
+            "fn",
+            "capslock",
+            "enter",
+            "return",
+            "backspace",
+            "delete",
+            "arrowup",
+            "arrowdown",
+            "arrowleft",
+            "arrowright",
+        ];
+
+        if (ignored.includes(lowerKey) || /^[0-9]$/.test(lowerKey)) {
+            return;
+        }
+
+        var playerKey = lowerKey;
+        if (/^[a-z ]$/.test(playerKey)) {
             console.log("You pressed: " + playerKey);
 
             // determine if there are multiple occurances of the same character
