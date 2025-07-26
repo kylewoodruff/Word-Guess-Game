@@ -66,68 +66,28 @@ function startGame() {
 
     document.onkeyup = function (event) {
         var selectedIds = [];
-        var rawKey = event.key;
-        var lowerKey = rawKey.toLowerCase();
+        var playerKey = event.key.toLowerCase();
 
-        var ignored = [
-            "shift",
-            "control",
-            "ctrl",
-            "alt",
-            "option",
-            "meta",
-            "command",
-            "fn",
-            "capslock",
-            "enter",
-            "return",
-            "backspace",
-            "delete",
-            "arrowup",
-            "arrowdown",
-            "arrowleft",
-            "arrowright",
-        ];
-
-        if (ignored.includes(lowerKey) || /^[0-9]$/.test(lowerKey)) {
+        // Only respond to alphabetic keys. Any other key press is ignored and
+        // does not affect the remaining guess count.
+        if (!/^[a-z]$/.test(playerKey)) {
             return;
         }
 
-        var playerKey = lowerKey;
-        if (/^[a-z ]$/.test(playerKey)) {
-            console.log("You pressed: " + playerKey);
+        console.log("You pressed: " + playerKey);
 
-            // determine if there are multiple occurances of the same character
-            if (wordArray.includes(playerKey)) {
-                selectedIds = window.findLetterIndices(wordArray, playerKey);
-                for (let i = 0; i < selectedIds.length; i++) {
-                    delete wordArray[selectedIds[i]];
-                }
-                userGuess.push(playerKey);
-                //TODO: log the spcaebar correctly
-                    //if (idToSelect = " ") {
-                        //console.log("spacebar was pushed")
-                    //}
-            } else if (userGuess.indexOf(playerKey) >= 0) {
-                console.log("you already picked " + playerKey + " letter!");
-
-            } else {
-                if (remainingGuesses > 0) {
-                    remainingGuesses--;
-                    guessesLeftText.textContent = remainingGuesses;
-                    console.log("you remaining guesses: " + remainingGuesses);
-                }
-                if (remainingGuesses === 0) {
-                    alert("You Lose!");
-                    document.getElementById("resetButton").innerHTML = "<button id='play-again' type='button' class='btn btn-primary btn-lg'>Play Again!</button>";
-                    document.getElementById("play-again").addEventListener('click', startGame);
-                }
-            }
-            if (!userGuess.includes(playerKey)) {
-                userGuess.push(playerKey);
-            }
-        } else if (userGuess.indexOf(playerKey) >= 0) {
+        // Ignore letters that have already been guessed
+        if (userGuess.includes(playerKey)) {
             console.log("you already picked " + playerKey + " letter!");
+            return;
+        }
+
+        // determine if there are multiple occurrences of the same character
+        if (wordArray.includes(playerKey)) {
+            selectedIds = window.findLetterIndices(wordArray, playerKey);
+            for (let i = 0; i < selectedIds.length; i++) {
+                delete wordArray[selectedIds[i]];
+            }
         } else {
             if (remainingGuesses > 0) {
                 remainingGuesses--;
@@ -141,10 +101,7 @@ function startGame() {
             }
         }
 
-        if (!userGuess.includes(playerKey)) {
-            userGuess.push(playerKey);
-        }
-
+        userGuess.push(playerKey);
         lettersGuessedText.textContent = userGuess.join(' ');
 
         console.log("This is user's guess ", userGuess);
