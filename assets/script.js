@@ -67,37 +67,17 @@ function startGame() {
     document.onkeyup = function (event) {
         var selectedIds = [];
         var playerKey = event.key.toLowerCase();
-        if (/^[a-z0-9 ]$/.test(playerKey)) {
-            console.log("You pressed: " + playerKey);
+        if (!/^[a-z ]$/.test(playerKey)) {
+            return;
+        }
 
-            // determine if there are multiple occurances of the same character
-            if (wordArray.includes(playerKey)) {
-                selectedIds = window.findLetterIndices(wordArray, playerKey);
-                for (let i = 0; i < selectedIds.length; i++) {
-                    delete wordArray[selectedIds[i]];
-                }
-                userGuess.push(playerKey);
-                //TODO: log the spcaebar correctly
-                    //if (idToSelect = " ") {
-                        //console.log("spacebar was pushed")
-                    //}
-            } else if (userGuess.indexOf(playerKey) >= 0) {
-                console.log("you already picked " + playerKey + " letter!");
+        console.log("You pressed: " + playerKey);
 
-            } else {
-                if (remainingGuesses > 0) {
-                    remainingGuesses--;
-                    guessesLeftText.textContent = remainingGuesses;
-                    console.log("you remaining guesses: " + remainingGuesses);
-                }
-                if (remainingGuesses === 0) {
-                    alert("You Lose!");
-                    document.getElementById("resetButton").innerHTML = "<button id='play-again' type='button' class='btn btn-primary btn-lg'>Play Again!</button>";
-                    document.getElementById("play-again").addEventListener('click', startGame);
-                }
-            }
-            if (!userGuess.includes(playerKey)) {
-                userGuess.push(playerKey);
+        // determine if there are multiple occurrences of the same character
+        if (wordArray.includes(playerKey)) {
+            selectedIds = window.findLetterIndices(wordArray, playerKey);
+            for (let i = 0; i < selectedIds.length; i++) {
+                delete wordArray[selectedIds[i]];
             }
         } else if (userGuess.indexOf(playerKey) >= 0) {
             console.log("you already picked " + playerKey + " letter!");
@@ -109,31 +89,29 @@ function startGame() {
             }
             if (remainingGuesses === 0) {
                 alert("You Lose!");
+                document.getElementById("resetButton").innerHTML = "<button id='play-again' type='button' class='btn btn-primary btn-lg'>Play Again!</button>";
+                document.getElementById("play-again").addEventListener('click', startGame);
             }
+        }
+
+        if (!userGuess.includes(playerKey)) {
             userGuess.push(playerKey);
         }
-      
-            lettersGuessedText.textContent = userGuess.join(' ');
 
-            console.log("This is user's guess ", userGuess);
+        lettersGuessedText.textContent = userGuess.join(' ');
 
-            for (let i = 0; i < selectedIds.length; i++) {
-                document.getElementById(selectedIds[i]).innerHTML = playerKey;
-                correctGuesses++;
-                if (correctGuesses === selectedWord.length) {
-                    wins++;
-                    playerWinsText.textContent = wins;
-                    document.getElementById("resetButton").innerHTML = "<button id='play-again' type='button' class='btn btn-primary btn-lg'>Play Again!</button>";
-                    document.getElementById("play-again").addEventListener('click', startGame);
+        console.log("This is user's guess ", userGuess);
 
-                    //TODO: change word on click of "Play Again" button
-                    //TODO: clear letters already guessed
-                    //TODO: reset remaining guess back to 9
-                    //TODO: Set display of button to hide
-                    //TODO: If the above statement is true again display the button by setting the display to block
-
-                }
+        for (let i = 0; i < selectedIds.length; i++) {
+            document.getElementById(selectedIds[i]).innerHTML = playerKey;
+            correctGuesses++;
+            if (correctGuesses === selectedWord.length) {
+                wins++;
+                playerWinsText.textContent = wins;
+                document.getElementById("resetButton").innerHTML = "<button id='play-again' type='button' class='btn btn-primary btn-lg'>Play Again!</button>";
+                document.getElementById("play-again").addEventListener('click', startGame);
             }
+        }
     };
 
 window.onload = startGame;
