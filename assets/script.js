@@ -136,31 +136,29 @@ function startGame() {
             }
             if (remainingGuesses === 0) {
                 alert("You Lose!");
+                document.getElementById("resetButton").innerHTML = "<button id='play-again' type='button' class='btn btn-primary btn-lg'>Play Again!</button>";
+                document.getElementById("play-again").addEventListener('click', startGame);
             }
+        }
+
+        if (!userGuess.includes(playerKey)) {
             userGuess.push(playerKey);
         }
-      
-            lettersGuessedText.textContent = userGuess.join(' ');
 
-            console.log("This is user's guess ", userGuess);
+        lettersGuessedText.textContent = userGuess.join(' ');
 
-            for (let i = 0; i < selectedIds.length; i++) {
-                document.getElementById(selectedIds[i]).innerHTML = playerKey;
-                correctGuesses++;
-                if (correctGuesses === selectedWord.length) {
-                    wins++;
-                    playerWinsText.textContent = wins;
-                    document.getElementById("resetButton").innerHTML = "<button id='play-again' type='button' class='btn btn-primary btn-lg'>Play Again!</button>";
-                    document.getElementById("play-again").addEventListener('click', startGame);
+        console.log("This is user's guess ", userGuess);
 
-                    //TODO: change word on click of "Play Again" button
-                    //TODO: clear letters already guessed
-                    //TODO: reset remaining guess back to 9
-                    //TODO: Set display of button to hide
-                    //TODO: If the above statement is true again display the button by setting the display to block
-
-                }
+        for (let i = 0; i < selectedIds.length; i++) {
+            document.getElementById(selectedIds[i]).innerHTML = playerKey;
+            correctGuesses++;
+            if (correctGuesses === selectedWord.length) {
+                wins++;
+                playerWinsText.textContent = wins;
+                document.getElementById("resetButton").innerHTML = "<button id='play-again' type='button' class='btn btn-primary btn-lg'>Play Again!</button>";
+                document.getElementById("play-again").addEventListener('click', startGame);
             }
+        }
     };
 
 window.onload = startGame;
