@@ -20,12 +20,14 @@ var availableWords = ["Apollo", "Moon", "Space", "Mars", "Jupiter", "Outerspace"
 
 var selectedWord = "";
 var wordArray = [];
+var currentHint = "";
 
 //linking html ids to js variables
 var playerWinsText = document.getElementById("player-wins");
 var guessesLeftText = document.getElementById("remaining-guesses");
 var lettersGuessedText = document.getElementById("letters-guessed");
 var wordGuessText = document.getElementById("word-to-guess");
+var wordHintText = document.getElementById("word-hint");
 
 guessesLeftText.textContent = remainingGuesses;
 
@@ -35,9 +37,33 @@ function updateGuessedLettersDisplay() {
         .join(" ");
 }
 
-function startGame() {
-    var wordToConvert = availableWords[Math.floor(Math.random() * availableWords.length)];
-    selectedWord = wordToConvert.toLowerCase();
+async function fetchRandomWord() {
+    try {
+        const response = await fetch('https://random-words-api.vercel.app/word');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        if (Array.isArray(data) && data[0] && data[0].word) {
+            return {
+                word: data[0].word.toLowerCase(),
+                hint: data[0].definition || ''
+            };
+        }
+        throw new Error('Unexpected API response');
+    } catch (err) {
+        console.error('Failed to fetch random word:', err);
+        var fallbackWord = availableWords[Math.floor(Math.random() * availableWords.length)];
+        return { word: fallbackWord.toLowerCase(), hint: '' };
+    }
+}
+
+async function startGame() {
+    var result = await fetchRandomWord();
+    selectedWord = result.word;
+    currentHint = result.hint;
+    wordHintText.textContent = currentHint;
+
     wordArray = selectedWord.split("");
     var blankWord = "";
     remainingGuesses = 9;
@@ -47,14 +73,7 @@ function startGame() {
     lettersGuessedText.textContent = "";
     document.getElementById("resetButton").innerHTML = "";
 
-    remainingGuesses = 9;
-    correctGuesses = 0;
-    userGuess = [];
-
-    guessesLeftText.textContent = remainingGuesses;
     updateGuessedLettersDisplay();
-
-    document.getElementById("resetButton").innerHTML = "";
 
     for (let i = 0; i < wordArray.length; i++) {
         blankWord += "<span class='nameUnderscore' id='" + i + "'>_</span> ";
